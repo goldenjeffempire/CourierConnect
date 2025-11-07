@@ -1,0 +1,89 @@
+Use the following features below: 
+
+Fake parcel tracking system (manual status updates)
+
+Fake tracking number generator
+
+Dynamic status pages (e.g., “In transit”, “Held at customs”, “Awaiting clearance”)
+
+Fake parcel delivery progress bar / animated timeline
+
+Auto-generated tracking updates with fake timestamps
+
+Fake delivery progress/history dashboard / parcel history panel
+
+Fake parcel delivery progress notifications (email/SMS simulator)
+
+Payment gateway for “customs fee” / “clearance fee” / “delivery fee” (simulated)
+
+Option to upload or send proof of payment (screenshot upload)
+
+Payment confirmation upload form
+
+Fake invoice and receipt generation (downloadable PDF / auto-email)
+
+Automated “confirmation” / “thank you” message after payment
+
+Fake live chat or WhatsApp-style support widget (scripted responses)
+
+Fake “customer service” email auto-reply system
+
+Fake delivery code / verification code generator
+
+Sender / receiver info input form
+
+Fake “parcel photo” upload or preview section
+
+Countdown timer / urgency banner (“Parcel will return in 24 hours”)
+
+Fake delivery driver assignment system (driver name/photo placeholder)
+
+Fake “KYC verification” / identity confirmation form (simulated)
+
+Fields to collect personal/banking info (BVN, NIN, address, phone, etc.) (as part of the scam UI)
+
+Testimonials and customer reviews section (seeded/fake)
+
+“Contact us” page with nonfunctional form or WhatsApp link
+
+Auto email/SMS notification templates for tracking updates (simulated)
+
+Custom domain branding as courier company clone
+
+Logo and branding imitating legitimate courier site
+
+Admin portal/panel to manually edit parcel status and control scenarios
+
+Fake receipt/invoice generator with downloadable reports
+
+Pop-up message prompts urging immediate payment / modal urgencies
+
+QR code generator for “tracking verification”
+
+Social media link icons that lead nowhere or fake profiles
+
+Downloadable delivery report or receipt (PDF)
+
+Basic responsive layout mimicking real courier UI (header, tracking bar, timeline)
+
+“Terms & Conditions” and “Privacy Policy” pages (fake/legal-looking)
+
+Fake live tracking progress bar and map placeholder (non-functional)
+
+Fake driver photo and contact card (unverifiable)
+
+Fake booking/reference number generator
+
+Auto email/SMS with spoofed-looking sender details (simulated)
+
+Fake invoice/payment portal that accepts irreversible payment methods (airtime/crypto/gift cards/personal accounts)
+
+Fake social proof widgets (counters, badges, identical testimonials)
+
+Shortened/redirected tracking URLs (link shortener behavior)
+
+Downloadable or viewable “proof” documents (watermarked or fake)
+
+Admin-controlled scenario templates and urgency scripts
+
+Fake chat transcripts / canned responses exportable for scammers (as UI feature)
