@@ -1,5 +1,4 @@
 
-import openai
 from django.conf import settings
 from typing import List, Dict
 
