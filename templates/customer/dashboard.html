@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}My Shipments - Courier Core{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div class="flex justify-between items-center">
+        <h1 class="text-3xl font-bold text-gray-900">My Shipments</h1>
+        <a href="{% url 'parcels:create' %}" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
+            Create New Shipment
+        </a>
+    </div>
+
+    <div class="bg-white shadow rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+            {% if my_parcels %}
+                <div class="space-y-4">
+                    {% for parcel in my_parcels %}
+                    <div class="border rounded-lg p-4 hover:shadow-md transition">
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <p class="font-semibold text-gray-900 mb-2">{{ parcel.tracking_number }}</p>
+                                <div class="grid md:grid-cols-2 gap-4 text-sm text-gray-600">
+                                    <div>
+                                        <p><strong>From:</strong> {{ parcel.pickup_address|truncatewords:8 }}</p>
+                                        <p><strong>To:</strong> {{ parcel.dropoff_address|truncatewords:8 }}</p>
+                                    </div>
+                                    <div>
+                                        <p><strong>Status:</strong> <span class="text-blue-600 font-semibold">{{ parcel.get_status_display }}</span></p>
+                                        <p><strong>Price:</strong> ${{ parcel.price }}</p>
+                                        <p><strong>Service:</strong> {{ parcel.get_service_type_display }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <a href="{% url 'tracking:track' parcel.tracking_number %}" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 text-center">
+                                    Track
+                                </a>
+                                {% if not parcel.paid %}
+                                    <a href="{% url 'parcels:payment' parcel.tracking_number %}" class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-green-700 text-center">
+                                        Pay Now
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center py-12">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                    </svg>
+                    <h3 class="mt-2 text-sm font-medium text-gray-900">No shipments</h3>
+                    <p class="mt-1 text-sm text-gray-500">Get started by creating a new shipment.</p>
+                    <div class="mt-6">
+                        <a href="{% url 'parcels:create' %}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                            Create Shipment
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
