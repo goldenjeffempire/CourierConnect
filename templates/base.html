@@ -1,5 +1,6 @@
+
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="en" class="h-full scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,56 +9,180 @@
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         body { font-family: 'Inter', sans-serif; }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-slide-down {
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        /* Smooth scroll */
+        html { scroll-behavior: smooth; }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #2563eb; }
     </style>
     {% block extra_head %}{% endblock %}
 </head>
-<body class="h-full bg-gray-50">
-    <nav class="bg-blue-600 shadow-lg">
+<body class="h-full bg-gray-50" x-data="{ mobileMenuOpen: false, scrolled: false }" @scroll.window="scrolled = window.pageYOffset > 20">
+    <!-- Enhanced Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" :class="scrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-blue-600'">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex">
-                    <div class="flex-shrink-0 flex items-center">
-                        <a href="{% url 'home' %}" class="text-white text-2xl font-bold">
-                            <svg class="inline-block w-8 h-8 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <div class="flex justify-between h-16 lg:h-20">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="{% url 'home' %}" class="flex items-center group">
+                        <div class="relative">
+                            <svg class="w-10 h-10 lg:w-12 lg:h-12 transition-all duration-300 group-hover:scale-110 group-hover:rotate-12" :class="scrolled ? 'text-blue-600' : 'text-white'" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
                             </svg>
+                            <div class="absolute -inset-1 bg-blue-400 rounded-full opacity-0 group-hover:opacity-20 blur transition-opacity"></div>
+                        </div>
+                        <span class="ml-3 text-2xl lg:text-3xl font-extrabold transition-colors" :class="scrolled ? 'text-gray-900' : 'text-white'">
                             Courier Core
-                        </a>
-                    </div>
-                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-                        <a href="{% url 'parcels:create' %}" class="text-white hover:text-blue-200 inline-flex items-center px-1 pt-1 text-sm font-medium">Ship</a>
-                        <a href="{% url 'parcels:quote' %}" class="text-white hover:text-blue-200 inline-flex items-center px-1 pt-1 text-sm font-medium">Get Quote</a>
-                    </div>
+                        </span>
+                    </a>
                 </div>
-                <div class="flex items-center">
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-1 lg:space-x-4">
+                    <a href="{% url 'parcels:create' %}" class="px-4 py-2 rounded-lg font-semibold transition-all duration-300 hover:scale-105" :class="scrolled ? 'text-gray-700 hover:bg-blue-50 hover:text-blue-600' : 'text-white hover:bg-white/10'">
+                        Ship Now
+                    </a>
+                    <a href="{% url 'parcels:quote' %}" class="px-4 py-2 rounded-lg font-semibold transition-all duration-300 hover:scale-105" :class="scrolled ? 'text-gray-700 hover:bg-blue-50 hover:text-blue-600' : 'text-white hover:bg-white/10'">
+                        Get Quote
+                    </a>
+                    
                     {% if user.is_authenticated %}
-                        <span class="text-white mr-4">Welcome, {{ user.username }}</span>
-                        <a href="{% url 'users:dashboard' %}" class="text-white hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
-                        <a href="{% url 'users:logout' %}" class="text-white hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium">Logout</a>
+                        <div class="h-8 w-px bg-gray-300 mx-2"></div>
+                        <span class="px-3 py-2 text-sm font-medium" :class="scrolled ? 'text-gray-600' : 'text-blue-100'">
+                            👋 {{ user.username }}
+                        </span>
+                        <a href="{% url 'users:dashboard' %}" class="px-4 py-2 rounded-lg font-semibold transition-all duration-300 hover:scale-105" :class="scrolled ? 'text-gray-700 hover:bg-blue-50 hover:text-blue-600' : 'text-white hover:bg-white/10'">
+                            Dashboard
+                        </a>
+                        <a href="{% url 'users:logout' %}" class="px-4 py-2 rounded-lg font-semibold transition-all duration-300 hover:scale-105" :class="scrolled ? 'text-gray-700 hover:bg-red-50 hover:text-red-600' : 'text-white hover:bg-white/10'">
+                            Logout
+                        </a>
                     {% else %}
-                        <a href="{% url 'users:login' %}" class="text-white hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium">Login</a>
-                        <a href="{% url 'users:register' %}" class="bg-white text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-md text-sm font-medium ml-3">Sign Up</a>
+                        <a href="{% url 'users:login' %}" class="px-4 py-2 rounded-lg font-semibold transition-all duration-300 hover:scale-105" :class="scrolled ? 'text-gray-700 hover:bg-blue-50 hover:text-blue-600' : 'text-white hover:bg-white/10'">
+                            Login
+                        </a>
+                        <a href="{% url 'users:register' %}" class="px-6 py-2.5 rounded-full font-semibold shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl" :class="scrolled ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-white text-blue-600 hover:bg-blue-50'">
+                            Sign Up
+                        </a>
                     {% endif %}
                 </div>
+                
+                <!-- Mobile menu button -->
+                <div class="flex items-center md:hidden">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 rounded-lg transition-colors" :class="scrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-white hover:bg-white/10'">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path x-show="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                            <path x-show="mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div x-show="mobileMenuOpen" x-transition class="md:hidden bg-white border-t shadow-lg animate-slide-down">
+            <div class="px-4 py-4 space-y-2">
+                <a href="{% url 'parcels:create' %}" class="block px-4 py-3 rounded-lg font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">Ship Now</a>
+                <a href="{% url 'parcels:quote' %}" class="block px-4 py-3 rounded-lg font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">Get Quote</a>
+                {% if user.is_authenticated %}
+                    <div class="border-t my-2"></div>
+                    <div class="px-4 py-2 text-sm text-gray-600">Signed in as <strong>{{ user.username }}</strong></div>
+                    <a href="{% url 'users:dashboard' %}" class="block px-4 py-3 rounded-lg font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">Dashboard</a>
+                    <a href="{% url 'users:logout' %}" class="block px-4 py-3 rounded-lg font-semibold text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors">Logout</a>
+                {% else %}
+                    <div class="border-t my-2"></div>
+                    <a href="{% url 'users:login' %}" class="block px-4 py-3 rounded-lg font-semibold text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">Login</a>
+                    <a href="{% url 'users:register' %}" class="block px-4 py-3 rounded-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-colors text-center">Sign Up</a>
+                {% endif %}
             </div>
         </div>
     </nav>
 
+    <!-- Messages with Animation -->
     {% if messages %}
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        <div class="fixed top-20 lg:top-24 right-4 z-40 space-y-2 max-w-md" x-data="{ show: true }">
             {% for message in messages %}
-                <div class="rounded-md p-4 mb-4 {% if message.tags == 'error' %}bg-red-50 text-red-800{% elif message.tags == 'success' %}bg-green-50 text-green-800{% else %}bg-blue-50 text-blue-800{% endif %}" role="alert">
-                    {{ message }}
+                <div x-show="show" x-transition class="rounded-xl p-4 shadow-2xl backdrop-blur-sm {% if message.tags == 'error' %}bg-red-500/95 text-white{% elif message.tags == 'success' %}bg-green-500/95 text-white{% else %}bg-blue-500/95 text-white{% endif %}" role="alert">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                {% if message.tags == 'success' %}
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                {% else %}
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                {% endif %}
+                            </svg>
+                            <span class="font-medium">{{ message }}</span>
+                        </div>
+                        <button @click="show = false" class="ml-4 hover:opacity-75">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             {% endfor %}
         </div>
     {% endif %}
 
-    <main class="{% block main_class %}max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8{% endblock %}">
+    <!-- Main Content with Top Padding -->
+    <main class="pt-16 lg:pt-20 {% block main_class %}{% endblock %}">
         {% block content %}{% endblock %}
     </main>
+
+    <!-- Enhanced Footer -->
+    <footer class="bg-gray-900 text-white mt-20">
+        <div class="max-w-7xl mx-auto px-6 py-12">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Courier Core</h3>
+                    <p class="text-gray-400">Your trusted partner for fast and reliable package delivery.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Services</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="{% url 'parcels:create' %}" class="hover:text-white transition-colors">Standard Delivery</a></li>
+                        <li><a href="{% url 'parcels:create' %}" class="hover:text-white transition-colors">Express Delivery</a></li>
+                        <li><a href="{% url 'parcels:quote' %}" class="hover:text-white transition-colors">Get Quote</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Courier Core. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <!-- Live Chat Widget -->
     {% include 'partials/live_chat.html' %}

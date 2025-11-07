@@ -1,75 +1,268 @@
+
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="bg-white rounded-lg shadow-xl overflow-hidden">
-    <div class="relative bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-24 sm:px-12 sm:py-32 lg:px-16">
-        <div class="relative max-w-3xl mx-auto text-center">
-            <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
+<!-- Hero Section with Gradient Animation -->
+<div class="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800">
+    <div class="absolute inset-0 opacity-20">
+        <div class="absolute top-0 left-0 w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+        <div class="absolute top-0 right-0 w-96 h-96 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+        <div class="absolute bottom-0 left-1/2 w-96 h-96 bg-pink-400 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
+    </div>
+    
+    <div class="relative max-w-7xl mx-auto px-6 py-24 sm:py-32 lg:px-8">
+        <div class="text-center">
+            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white mb-6 animate-fade-in-down">
                 Fast, Reliable Package Delivery
             </h1>
-            <p class="mt-6 text-xl text-blue-100">
-                Track your packages in real-time with our enterprise-grade courier platform
+            <p class="text-xl sm:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto animate-fade-in-up animation-delay-300">
+                Track your packages in real-time with our enterprise-grade courier platform powered by AI
             </p>
-            <div class="mt-10 flex justify-center gap-4">
-                <a href="{% url 'parcels:create' %}" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition">
-                    Ship Now
+            <div class="flex flex-col sm:flex-row justify-center gap-4 animate-fade-in-up animation-delay-600">
+                <a href="{% url 'parcels:create' %}" class="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-blue-600 bg-white rounded-full overflow-hidden shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-blue-500/50">
+                    <span class="relative z-10">Ship Now</span>
+                    <svg class="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                    </svg>
                 </a>
-                <a href="{% url 'parcels:quote' %}" class="bg-blue-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-400 transition">
-                    Get Quote
+                <a href="{% url 'parcels:quote' %}" class="group inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-blue-500/30 backdrop-blur-sm border-2 border-white/30 rounded-full transition-all duration-300 hover:bg-blue-500/50 hover:scale-105">
+                    <span>Get Quote</span>
+                    <svg class="ml-2 w-5 h-5 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                    </svg>
                 </a>
             </div>
         </div>
     </div>
+    
+    <!-- Wave Divider -->
+    <div class="absolute bottom-0 left-0 right-0">
+        <svg class="w-full h-20 fill-gray-50" viewBox="0 0 1440 120" preserveAspectRatio="none">
+            <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"></path>
+        </svg>
+    </div>
+</div>
 
-    <div class="max-w-7xl mx-auto px-6 py-16 sm:px-12">
-        <div class="mb-12" x-data="{ trackingNumber: '' }">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4 text-center">Track Your Package</h2>
-            <div class="max-w-md mx-auto">
-                <form method="get" :action="'/tracking/' + trackingNumber + '/'" class="flex gap-2">
-                    <input
-                        type="text"
-                        x-model="trackingNumber"
-                        placeholder="Enter tracking number"
-                        class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    >
-                    <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
-                        Track
+<!-- Quick Track Section -->
+<div class="bg-gray-50 py-16">
+    <div class="max-w-7xl mx-auto px-6">
+        <div x-data="{ trackingNumber: '', isTracking: false }" class="max-w-2xl mx-auto">
+            <div class="bg-white rounded-2xl shadow-xl p-8 transform hover:scale-[1.02] transition-all duration-300">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">Track Your Package</h2>
+                <form method="get" :action="'/tracking/' + trackingNumber + '/'" @submit="isTracking = true" class="space-y-4">
+                    <div class="relative">
+                        <input
+                            type="text"
+                            x-model="trackingNumber"
+                            placeholder="Enter tracking number"
+                            class="w-full px-6 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-lg"
+                            required
+                        >
+                        <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </div>
+                    <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center group">
+                        <span x-show="!isTracking">Track Package</span>
+                        <span x-show="isTracking" class="flex items-center">
+                            <svg class="animate-spin h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Tracking...
+                        </span>
+                        <svg class="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" x-show="!isTracking" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                        </svg>
                     </button>
                 </form>
             </div>
         </div>
+    </div>
+</div>
 
-        <div class="grid md:grid-cols-3 gap-8 mt-16">
-            <div class="text-center">
-                <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
+<!-- Features Section with Cards -->
+<div class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16 animate-fade-in">
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Why Choose Courier Core?</h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">Experience the future of package delivery with cutting-edge technology</p>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Feature 1 -->
+            <div class="group relative bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-blue-200 rounded-full -mr-16 -mt-16 opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
+                <div class="relative">
+                    <div class="bg-gradient-to-br from-blue-500 to-blue-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Real-Time Tracking</h3>
+                    <p class="text-gray-600 leading-relaxed">Monitor your package location with live GPS updates and instant notifications at every step</p>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-2">Real-Time Tracking</h3>
-                <p class="text-gray-600">Monitor your package location with live GPS updates</p>
             </div>
 
-            <div class="text-center">
-                <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
+            <!-- Feature 2 -->
+            <div class="group relative bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-green-200 rounded-full -mr-16 -mt-16 opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
+                <div class="relative">
+                    <div class="bg-gradient-to-br from-green-500 to-green-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Secure Delivery</h3>
+                    <p class="text-gray-600 leading-relaxed">OTP verification, photo proof, and signature confirmation for ultimate security</p>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-2">Secure Delivery</h3>
-                <p class="text-gray-600">OTP verification and photo proof of delivery</p>
             </div>
 
-            <div class="text-center">
-                <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                    </svg>
+            <!-- Feature 3 -->
+            <div class="group relative bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-purple-200 rounded-full -mr-16 -mt-16 opacity-20 group-hover:scale-150 transition-transform duration-500"></div>
+                <div class="relative">
+                    <div class="bg-gradient-to-br from-purple-500 to-purple-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Express Service</h3>
+                    <p class="text-gray-600 leading-relaxed">Same-day and next-day delivery options with guaranteed time slots</p>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-2">Express Service</h3>
-                <p class="text-gray-600">Same-day and next-day delivery options available</p>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Stats Section -->
+<div class="bg-gradient-to-r from-blue-600 to-indigo-600 py-16">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="grid md:grid-cols-4 gap-8 text-center">
+            <div class="group">
+                <div class="text-5xl font-extrabold text-white mb-2 group-hover:scale-110 transition-transform" x-data="{ count: 0 }" x-init="setInterval(() => { if(count < 50000) count += 1000 }, 30)">
+                    <span x-text="count.toLocaleString()">0</span>+
+                </div>
+                <p class="text-blue-100 text-lg">Packages Delivered</p>
+            </div>
+            <div class="group">
+                <div class="text-5xl font-extrabold text-white mb-2 group-hover:scale-110 transition-transform">99.8%</div>
+                <p class="text-blue-100 text-lg">On-Time Delivery</p>
+            </div>
+            <div class="group">
+                <div class="text-5xl font-extrabold text-white mb-2 group-hover:scale-110 transition-transform">24/7</div>
+                <p class="text-blue-100 text-lg">Customer Support</p>
+            </div>
+            <div class="group">
+                <div class="text-5xl font-extrabold text-white mb-2 group-hover:scale-110 transition-transform">100+</div>
+                <p class="text-blue-100 text-lg">Cities Covered</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- How It Works -->
+<div class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-4">How It Works</h2>
+            <p class="text-xl text-gray-600">Simple, fast, and secure delivery in 4 easy steps</p>
+        </div>
+        
+        <div class="relative">
+            <!-- Connection Line -->
+            <div class="hidden md:block absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200"></div>
+            
+            <div class="grid md:grid-cols-4 gap-8 relative">
+                <div class="text-center group">
+                    <div class="relative inline-block mb-6">
+                        <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-xl group-hover:scale-110 transition-transform">1</div>
+                        <div class="absolute -inset-2 bg-blue-200 rounded-full opacity-0 group-hover:opacity-50 transition-opacity -z-10 blur-xl"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Book Online</h3>
+                    <p class="text-gray-600">Enter pickup and delivery details with instant pricing</p>
+                </div>
+                
+                <div class="text-center group">
+                    <div class="relative inline-block mb-6">
+                        <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-xl group-hover:scale-110 transition-transform">2</div>
+                        <div class="absolute -inset-2 bg-purple-200 rounded-full opacity-0 group-hover:opacity-50 transition-opacity -z-10 blur-xl"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Secure Payment</h3>
+                    <p class="text-gray-600">Pay securely with Stripe or other payment methods</p>
+                </div>
+                
+                <div class="text-center group">
+                    <div class="relative inline-block mb-6">
+                        <div class="w-20 h-20 bg-gradient-to-br from-pink-500 to-pink-600 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-xl group-hover:scale-110 transition-transform">3</div>
+                        <div class="absolute -inset-2 bg-pink-200 rounded-full opacity-0 group-hover:opacity-50 transition-opacity -z-10 blur-xl"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Track Live</h3>
+                    <p class="text-gray-600">Monitor your package in real-time with GPS tracking</p>
+                </div>
+                
+                <div class="text-center group">
+                    <div class="relative inline-block mb-6">
+                        <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-xl group-hover:scale-110 transition-transform">4</div>
+                        <div class="absolute -inset-2 bg-green-200 rounded-full opacity-0 group-hover:opacity-50 transition-opacity -z-10 blur-xl"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Safe Delivery</h3>
+                    <p class="text-gray-600">OTP verification and photo confirmation on delivery</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="relative bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 py-20 overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-0 left-1/4 w-64 h-64 bg-white rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-0 right-1/4 w-64 h-64 bg-white rounded-full blur-3xl animate-pulse animation-delay-2000"></div>
+    </div>
+    
+    <div class="relative max-w-4xl mx-auto text-center px-6">
+        <h2 class="text-4xl sm:text-5xl font-extrabold text-white mb-6">Ready to Ship?</h2>
+        <p class="text-xl text-indigo-100 mb-8">Join thousands of satisfied customers using our platform</p>
+        <a href="{% url 'users:register' %}" class="inline-flex items-center px-8 py-4 text-lg font-semibold text-purple-600 bg-white rounded-full shadow-2xl hover:scale-105 transition-all duration-300 group">
+            Get Started Free
+            <svg class="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+        </a>
+    </div>
+</div>
+
+<style>
+@keyframes blob {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(20px, -50px) scale(1.1); }
+    50% { transform: translate(-20px, 20px) scale(0.9); }
+    75% { transform: translate(50px, 50px) scale(1.05); }
+}
+
+@keyframes fade-in-down {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.animate-blob { animation: blob 7s infinite; }
+.animate-fade-in-down { animation: fade-in-down 0.8s ease-out; }
+.animate-fade-in-up { animation: fade-in-up 0.8s ease-out; }
+.animate-fade-in { animation: fade-in 1s ease-out; }
+.animation-delay-300 { animation-delay: 0.3s; }
+.animation-delay-600 { animation-delay: 0.6s; }
+.animation-delay-2000 { animation-delay: 2s; }
+.animation-delay-4000 { animation-delay: 4s; }
+</style>
 {% endblock %}
