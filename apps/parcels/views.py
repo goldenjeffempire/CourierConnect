@@ -71,6 +71,10 @@ def create_parcel_view(request):
             description='Parcel created and awaiting payment'
         )
         
+        # Send confirmation email asynchronously
+        from apps.notifications.tasks import send_shipment_confirmation_email
+        send_shipment_confirmation_email.delay(parcel.id, request.user.id)
+        
         messages.success(request, f'Parcel created! Tracking number: {tracking_number}')
         return redirect('parcels:payment', tracking_number=tracking_number)
     

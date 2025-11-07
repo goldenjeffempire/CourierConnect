@@ -26,6 +26,23 @@ waitForPort = 5000
 [workflows.workflow.metadata]
 outputType = "webview"
 
+[[workflows.workflow]]
+name = "Deploy to Production"
+author = 49503360
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python manage.py collectstatic --noinput"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python manage.py migrate --noinput"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "daphne -b 0.0.0.0 -p 5000 courier.asgi:application"
+
 [[ports]]
 localPort = 5000
 externalPort = 80
@@ -33,3 +50,6 @@ externalPort = 80
 [[ports]]
 localPort = 42183
 externalPort = 3000
+
+[deployment]
+run = ["sh", "-c", "daphne -b 0.0.0.0 -p $PORT courier.asgi:application"]

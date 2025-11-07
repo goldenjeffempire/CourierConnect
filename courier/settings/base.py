@@ -117,6 +117,27 @@ GOOGLE_MAPS_API_KEY = env('GOOGLE_MAPS_API_KEY', default='AIzaDEMO_KEY')
 SENTRY_DSN = env('SENTRY_DSN', default='')
 TWILIO_ACCOUNT_SID = env('TWILIO_ACCOUNT_SID', default='ACDEMO')
 TWILIO_AUTH_TOKEN = env('TWILIO_AUTH_TOKEN', default='DEMO')
+OPENAI_API_KEY = env('OPENAI_API_KEY', default='')
+
+# Rate Limiting
+RATELIMIT_ENABLE = True
+RATELIMIT_USE_CACHE = 'default'
+
+# Session Security
+SESSION_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_HTTPONLY = True
+
+# Email Configuration
+EMAIL_BACKEND = env('EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
+EMAIL_HOST = env('EMAIL_HOST', default='smtp.gmail.com')
+EMAIL_PORT = env('EMAIL_PORT', default=587)
+EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
+EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='noreply@couriercore.com')
 
 if SENTRY_DSN:
     import sentry_sdk
@@ -135,6 +156,16 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
+
+# Channel Layers for WebSocket
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [env('REDIS_URL', default='redis://localhost:6379/0')],
+        },
+    },
+}
 
 LOGIN_URL = '/auth/login/'
 LOGIN_REDIRECT_URL = '/dashboard/'

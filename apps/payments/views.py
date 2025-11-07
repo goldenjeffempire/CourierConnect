@@ -37,6 +37,11 @@ def stripe_webhook_view(request):
                     status='assigned',
                     description='Payment received. Parcel is being assigned to a courier.'
                 )
+                
+                # Send payment confirmation email
+                from apps.notifications.tasks import send_payment_confirmation_email, send_status_update_email
+                send_payment_confirmation_email.delay(parcel.id, payment.id)
+                send_status_update_email.delay(parcel.id, 'assigned', 'Payment received. Your shipment will be assigned to a courier shortly.')
             except Payment.DoesNotExist:
                 pass
         

@@ -59,15 +59,7 @@
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="bg-gray-800 text-white mt-auto">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div class="text-center">
-                <p>&copy; 2024 Courier Core. All rights reserved.</p>
-                <p class="text-sm text-gray-400 mt-2">Demo project using placeholder API keys</p>
-            </div>
-        </div>
-    </footer>
-
-    {% block extra_js %}{% endblock %}
+    <!-- Live Chat Widget -->
+    {% include 'partials/live_chat.html' %}
 </body>
 </html>

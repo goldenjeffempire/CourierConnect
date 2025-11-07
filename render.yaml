@@ -1,0 +1,75 @@
+
+services:
+  - type: web
+    name: courier-core-web
+    env: python
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+      python manage.py migrate --noinput
+    startCommand: daphne -b 0.0.0.0 -p $PORT courier.asgi:application
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: courier.settings.prod
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: False
+      - key: ALLOWED_HOSTS
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: courier-core-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: courier-core-redis
+          type: pserv
+          property: connectionString
+      - key: STRIPE_PUBLISHABLE_KEY
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: MAPBOX_TOKEN
+        sync: false
+      - key: EMAIL_HOST_USER
+        sync: false
+      - key: EMAIL_HOST_PASSWORD
+        sync: false
+      - key: SITE_URL
+        sync: false
+
+  - type: worker
+    name: courier-core-celery
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: celery -A courier worker --loglevel=info
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: courier.settings.prod
+      - key: SECRET_KEY
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: courier-core-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          name: courier-core-redis
+          type: pserv
+          property: connectionString
+
+  - type: pserv
+    name: courier-core-redis
+    env: docker
+    image: redis:7-alpine
+    disk:
+      name: redis-data
+      mountPath: /data
+      sizeGB: 1
+
+databases:
+  - name: courier-core-db
+    databaseName: courier_prod
+    user: courier_user
+    plan: starter

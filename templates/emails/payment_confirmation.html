@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background-color: #10b981; color: white; padding: 20px; text-align: center; }
+        .content { background-color: #f9fafb; padding: 30px; }
+        .success-box { background-color: #d1fae5; border-left: 4px solid #10b981; padding: 15px; margin: 20px 0; }
+        .amount { font-size: 28px; font-weight: bold; color: #10b981; }
+        .footer { background-color: #1f2937; color: #9ca3af; padding: 20px; text-align: center; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✓ Payment Confirmed</h1>
+        </div>
+        
+        <div class="content">
+            <div class="success-box">
+                <h2>Payment Successful!</h2>
+                <p>Your payment has been processed successfully.</p>
+            </div>
+            
+            <h3>Payment Details:</h3>
+            <ul>
+                <li><strong>Amount Paid:</strong> <span class="amount">${{ payment.amount }}</span></li>
+                <li><strong>Transaction ID:</strong> {{ payment.transaction_id }}</li>
+                <li><strong>Tracking Number:</strong> {{ parcel.tracking_number }}</li>
+                <li><strong>Payment Method:</strong> {{ payment.get_provider_display }}</li>
+            </ul>
+            
+            <p>Your shipment will be assigned to a courier shortly.</p>
+            
+            <p style="text-align: center; margin-top: 30px;">
+                <a href="{{ tracking_url }}" style="display: inline-block; background-color: #10b981; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px;">Track Shipment</a>
+            </p>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; 2024 Courier Core. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
