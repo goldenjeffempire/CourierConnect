@@ -1,4 +1,4 @@
-modules = ["python-3.11"]
+modules = ["python-3.11", "nodejs-20"]
 [agent]
 expertMode = true
 
@@ -23,7 +23,7 @@ outputType = "webview"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "gunicorn courier.wsgi:application --bind 0.0.0.0:5000 --workers 2 --timeout 120"
+args = "bash -c \"npm run build:css && python manage.py collectstatic --noinput && gunicorn courier.wsgi:application --bind 0.0.0.0:5000 --workers 2 --timeout 120\""
 waitForPort = 5000
 
 [[workflows.workflow]]
@@ -48,8 +48,8 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
-localPort = 43613
-externalPort = 3000
+localPort = 45565
+externalPort = 3001
 
 [deployment]
 run = ["sh", "-c", "daphne -b 0.0.0.0 -p $PORT courier.asgi:application"]
