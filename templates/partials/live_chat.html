@@ -50,6 +50,7 @@
                     this.isConnected = false;
                     this.addSystemMessage('💬 Chat disconnected. Please use email: support@couriercore.com');
                 }
+                this.socket = null;
             };
             
             this.socket.onerror = (error) => {
@@ -57,6 +58,7 @@
                 if (this.connectionAttempts === 1) {
                     this.addSystemMessage('💬 Live chat is currently offline. Please contact support@couriercore.com');
                 }
+                this.socket = null;
             };
         } catch (error) {
             this.isConnected = false;
