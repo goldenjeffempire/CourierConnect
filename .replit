@@ -47,6 +47,10 @@ args = "daphne -b 0.0.0.0 -p 5000 courier.asgi:application"
 localPort = 5000
 externalPort = 80
 
+[[ports]]
+localPort = 43613
+externalPort = 3000
+
 [deployment]
 run = ["sh", "-c", "daphne -b 0.0.0.0 -p $PORT courier.asgi:application"]
 
