@@ -67,7 +67,7 @@
             <!-- Right Image -->
             <div class="hidden lg:block animate-fade-in animation-delay-800">
                 <div class="relative">
-                    <img src="{% static 'images/professional_courier_4e239249.jpg' %}" alt="Professional courier" class="rounded-3xl shadow-2xl transform hover:scale-105 transition-all duration-500">
+                    <img src="{% static 'images/professional_courier_4e239249.jpg' %}" alt="Professional courier" class="rounded-3xl shadow-2xl transform hover:scale-105 transition-all duration-500" loading="lazy">
                     <div class="absolute -bottom-6 -right-6 bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-xl">
                         <div class="flex items-center gap-4">
                             <div class="bg-green-500 rounded-full p-3">
@@ -153,7 +153,7 @@
             <!-- Feature 1 - Real-Time Tracking -->
             <div class="group relative bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
                 <div class="h-48 overflow-hidden">
-                    <img src="{% static 'images/package_tracking_gps_fb3c2442.jpg' %}" alt="Package tracking" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <img src="{% static 'images/package_tracking_gps_fb3c2442.jpg' %}" alt="Package tracking" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
                 </div>
                 <div class="p-8">
                     <div class="bg-gradient-to-br from-blue-500 to-blue-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
@@ -169,7 +169,7 @@
             <!-- Feature 2 - Secure Delivery -->
             <div class="group relative bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
                 <div class="h-48 overflow-hidden">
-                    <img src="{% static 'images/secure_delivery_pack_7bd4dda0.jpg' %}" alt="Secure delivery" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <img src="{% static 'images/secure_delivery_pack_7bd4dda0.jpg' %}" alt="Secure delivery" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
                 </div>
                 <div class="p-8">
                     <div class="bg-gradient-to-br from-green-500 to-green-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
@@ -185,7 +185,7 @@
             <!-- Feature 3 - Express Service -->
             <div class="group relative bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
                 <div class="h-48 overflow-hidden">
-                    <img src="{% static 'images/express_fast_deliver_c1419da4.jpg' %}" alt="Express delivery" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <img src="{% static 'images/express_fast_deliver_c1419da4.jpg' %}" alt="Express delivery" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
                 </div>
                 <div class="p-8">
                     <div class="bg-gradient-to-br from-purple-500 to-purple-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
@@ -206,7 +206,7 @@
     <div class="max-w-7xl mx-auto px-6">
         <div class="grid md:grid-cols-4 gap-8 text-center">
             <div class="group">
-                <div class="text-5xl font-extrabold text-white mb-2 group-hover:scale-110 transition-transform" x-data="{ count: 0 }" x-init="setInterval(() => { if(count < 50000) count += 1000 }, 30)">
+                <div class="text-5xl font-extrabold text-white mb-2 group-hover:scale-110 transition-transform" x-data="{ count: 0, interval: null }" x-init="interval = setInterval(() => { if(count < 50000) { count += 1000 } else { clearInterval(interval) } }, 30)">
                     <span x-text="count.toLocaleString()">0</span>+
                 </div>
                 <p class="text-blue-100 text-lg">Packages Delivered</p>
@@ -302,7 +302,7 @@
                 </div>
                 <p class="text-gray-700 mb-6 leading-relaxed">"Absolutely fantastic service! The real-time tracking kept me informed every step of the way. My package arrived exactly on time and in perfect condition."</p>
                 <div class="flex items-center gap-4">
-                    <img src="{% static 'images/happy_customer_recei_4876def5.jpg' %}" alt="Sarah Johnson" class="w-12 h-12 rounded-full object-cover">
+                    <img src="{% static 'images/happy_customer_recei_4876def5.jpg' %}" alt="Sarah Johnson" class="w-12 h-12 rounded-full object-cover" loading="lazy">
                     <div>
                         <p class="font-semibold text-gray-900">Sarah Johnson</p>
                         <p class="text-sm text-gray-500">E-commerce Business Owner</p>
@@ -322,7 +322,7 @@
                 </div>
                 <p class="text-gray-700 mb-6 leading-relaxed">"Best courier service I've ever used! The express delivery option saved my business. Professional couriers and excellent customer support."</p>
                 <div class="flex items-center gap-4">
-                    <img src="{% static 'images/happy_customer_recei_a3994189.jpg' %}" alt="Michael Chen" class="w-12 h-12 rounded-full object-cover">
+                    <img src="{% static 'images/happy_customer_recei_a3994189.jpg' %}" alt="Michael Chen" class="w-12 h-12 rounded-full object-cover" loading="lazy">
                     <div>
                         <p class="font-semibold text-gray-900">Michael Chen</p>
                         <p class="text-sm text-gray-500">Tech Startup Founder</p>
@@ -342,11 +342,223 @@
                 </div>
                 <p class="text-gray-700 mb-6 leading-relaxed">"Reliable, secure, and incredibly convenient. The OTP verification gave me peace of mind knowing my package was delivered to the right person."</p>
                 <div class="flex items-center gap-4">
-                    <img src="{% static 'images/happy_customer_recei_80d5cfb1.jpg' %}" alt="Emily Rodriguez" class="w-12 h-12 rounded-full object-cover">
+                    <img src="{% static 'images/happy_customer_recei_80d5cfb1.jpg' %}" alt="Emily Rodriguez" class="w-12 h-12 rounded-full object-cover" loading="lazy">
                     <div>
                         <p class="font-semibold text-gray-900">Emily Rodriguez</p>
                         <p class="text-sm text-gray-500">Marketing Director</p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Additional Services Section -->
+<div class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <span class="inline-block px-4 py-2 bg-blue-100 text-blue-600 rounded-full text-sm font-semibold mb-4">OUR SERVICES</span>
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Comprehensive Logistics Solutions</h2>
+            <p class="text-xl text-gray-600">From local delivery to international freight, we've got you covered</p>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- International Shipping -->
+            <div class="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500">
+                <div class="h-64 overflow-hidden">
+                    <img src="{% static 'images/international_shippi_92af9bec.jpg' %}" alt="International shipping" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                </div>
+                <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <h3 class="text-2xl font-bold mb-2">International Shipping</h3>
+                    <p class="text-gray-200 mb-4">Global reach to over 200 countries with customs clearance support</p>
+                    <a href="{% url 'parcels:create' %}" class="inline-flex items-center text-blue-300 hover:text-blue-200 font-semibold group-hover:translate-x-2 transition-transform">
+                        Learn More
+                        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Warehousing -->
+            <div class="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500">
+                <div class="h-64 overflow-hidden">
+                    <img src="{% static 'images/logistics_warehouse__1bdc01f0.jpg' %}" alt="Warehousing services" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                </div>
+                <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <h3 class="text-2xl font-bold mb-2">Warehousing & Storage</h3>
+                    <p class="text-gray-200 mb-4">Secure storage solutions with inventory management systems</p>
+                    <a href="{% url 'parcels:create' %}" class="inline-flex items-center text-blue-300 hover:text-blue-200 font-semibold group-hover:translate-x-2 transition-transform">
+                        Learn More
+                        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Fleet Management -->
+            <div class="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500">
+                <div class="h-64 overflow-hidden">
+                    <img src="{% static 'images/delivery_fleet_vehic_86c8eaa8.jpg' %}" alt="Fleet management" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                </div>
+                <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <h3 class="text-2xl font-bold mb-2">Dedicated Fleet</h3>
+                    <p class="text-gray-200 mb-4">Modern vehicles equipped with GPS tracking and temperature control</p>
+                    <a href="{% url 'parcels:create' %}" class="inline-flex items-center text-blue-300 hover:text-blue-200 font-semibold group-hover:translate-x-2 transition-transform">
+                        Learn More
+                        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Technology Section -->
+<div class="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <!-- Left Content -->
+            <div>
+                <span class="inline-block px-4 py-2 bg-purple-100 text-purple-600 rounded-full text-sm font-semibold mb-4">TECHNOLOGY</span>
+                <h2 class="text-4xl font-extrabold text-gray-900 mb-6">Powered by Advanced Technology</h2>
+                <p class="text-xl text-gray-600 mb-8">Our platform uses AI and machine learning to optimize routes, predict delivery times, and ensure your packages arrive on time, every time.</p>
+                
+                <div class="space-y-4">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-1">Mobile App</h3>
+                            <p class="text-gray-600">Track shipments on-the-go with our iOS and Android apps</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-1">AI Route Optimization</h3>
+                            <p class="text-gray-600">Smart algorithms ensure the fastest delivery routes</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-1">Real-Time Notifications</h3>
+                            <p class="text-gray-600">Instant SMS and email alerts for every delivery milestone</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Image -->
+            <div class="relative">
+                <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+                    <img src="{% static 'images/technology_mobile_ap_c674ee80.jpg' %}" alt="Mobile app technology" class="w-full h-auto" loading="lazy">
+                </div>
+                <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl p-6 shadow-xl">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-green-500 rounded-full p-2">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">App Rating</p>
+                            <p class="text-2xl font-bold text-gray-900">4.8/5.0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FAQ Section -->
+<div class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <span class="inline-block px-4 py-2 bg-green-100 text-green-600 rounded-full text-sm font-semibold mb-4">FAQ</span>
+            <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Frequently Asked Questions</h2>
+            <p class="text-xl text-gray-600">Everything you need to know about our services</p>
+        </div>
+        
+        <div class="space-y-4">
+            <div class="border border-gray-200 rounded-xl overflow-hidden hover:border-blue-300 transition-colors" x-data="{ open: false }">
+                <button @click="open = !open" class="w-full px-6 py-4 text-left flex items-center justify-between bg-white hover:bg-gray-50 transition-colors">
+                    <span class="font-semibold text-gray-900">How do I track my package?</span>
+                    <svg class="w-5 h-5 text-gray-500 transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div x-show="open" x-collapse class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                    <p class="text-gray-600">Simply enter your tracking number on our homepage or log in to your account to see real-time updates on your package location, estimated delivery time, and delivery status.</p>
+                </div>
+            </div>
+            
+            <div class="border border-gray-200 rounded-xl overflow-hidden hover:border-blue-300 transition-colors" x-data="{ open: false }">
+                <button @click="open = !open" class="w-full px-6 py-4 text-left flex items-center justify-between bg-white hover:bg-gray-50 transition-colors">
+                    <span class="font-semibold text-gray-900">What payment methods do you accept?</span>
+                    <svg class="w-5 h-5 text-gray-500 transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div x-show="open" x-collapse class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                    <p class="text-gray-600">We accept all major credit cards (Visa, Mastercard, American Express), debit cards, PayPal, and bank transfers. For corporate accounts, we also offer invoice billing with net-30 terms.</p>
+                </div>
+            </div>
+            
+            <div class="border border-gray-200 rounded-xl overflow-hidden hover:border-blue-300 transition-colors" x-data="{ open: false }">
+                <button @click="open = !open" class="w-full px-6 py-4 text-left flex items-center justify-between bg-white hover:bg-gray-50 transition-colors">
+                    <span class="font-semibold text-gray-900">Do you offer same-day delivery?</span>
+                    <svg class="w-5 h-5 text-gray-500 transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div x-show="open" x-collapse class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                    <p class="text-gray-600">Yes! Our express service offers same-day delivery for packages booked before 12 PM in select cities. Check availability for your area during the booking process.</p>
+                </div>
+            </div>
+            
+            <div class="border border-gray-200 rounded-xl overflow-hidden hover:border-blue-300 transition-colors" x-data="{ open: false }">
+                <button @click="open = !open" class="w-full px-6 py-4 text-left flex items-center justify-between bg-white hover:bg-gray-50 transition-colors">
+                    <span class="font-semibold text-gray-900">What if my package is damaged or lost?</span>
+                    <svg class="w-5 h-5 text-gray-500 transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div x-show="open" x-collapse class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                    <p class="text-gray-600">All shipments include basic insurance coverage. For high-value items, we recommend purchasing additional insurance. If your package is damaged or lost, file a claim within 48 hours through your account dashboard for a full refund or replacement.</p>
+                </div>
+            </div>
+            
+            <div class="border border-gray-200 rounded-xl overflow-hidden hover:border-blue-300 transition-colors" x-data="{ open: false }">
+                <button @click="open = !open" class="w-full px-6 py-4 text-left flex items-center justify-between bg-white hover:bg-gray-50 transition-colors">
+                    <span class="font-semibold text-gray-900">Can I schedule a pickup?</span>
+                    <svg class="w-5 h-5 text-gray-500 transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div x-show="open" x-collapse class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                    <p class="text-gray-600">Absolutely! You can schedule a pickup during the booking process. Choose a date and time window that works for you, and our courier will collect your package from your specified location.</p>
                 </div>
             </div>
         </div>
