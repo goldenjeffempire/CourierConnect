@@ -71,3 +71,44 @@ def profile_view(request):
         return redirect('users:profile')
     
     return render(request, 'users/profile.html')
+
+
+@login_required
+def kyc_verification_view(request):
+    user = request.user
+    
+    if request.method == 'POST':
+        user.bvn = request.POST.get('bvn', '')
+        user.nin = request.POST.get('nin', '')
+        user.passport_number = request.POST.get('passport_number', '')
+        user.drivers_license = request.POST.get('drivers_license', '')
+        user.bank_name = request.POST.get('bank_name', '')
+        user.account_number = request.POST.get('account_number', '')
+        user.account_name = request.POST.get('account_name', '')
+        user.date_of_birth = request.POST.get('date_of_birth') or None
+        user.city = request.POST.get('city', '')
+        user.state = request.POST.get('state', '')
+        user.country = request.POST.get('country', '')
+        user.postal_code = request.POST.get('postal_code', '')
+        user.emergency_contact_name = request.POST.get('emergency_contact_name', '')
+        user.emergency_contact_phone = request.POST.get('emergency_contact_phone', '')
+        user.emergency_contact_relationship = request.POST.get('emergency_contact_relationship', '')
+        
+        if 'id_card_front' in request.FILES:
+            user.id_card_front = request.FILES['id_card_front']
+        if 'id_card_back' in request.FILES:
+            user.id_card_back = request.FILES['id_card_back']
+        if 'utility_bill' in request.FILES:
+            user.utility_bill = request.FILES['utility_bill']
+        if 'profile_photo' in request.FILES:
+            user.profile_photo = request.FILES['profile_photo']
+        
+        user.kyc_submitted = True
+        from django.utils import timezone
+        user.kyc_submission_date = timezone.now()
+        user.save()
+        
+        messages.success(request, 'KYC information submitted successfully! Your verification is being processed.')
+        return redirect('users:profile')
+    
+    return render(request, 'users/kyc_verification.html', {'user': user})
